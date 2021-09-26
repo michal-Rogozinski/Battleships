@@ -6,14 +6,17 @@ namespace Battleships
 {
     public static class Util
     {
+        //Funkcja zwracająca pola w wybranym zakresie
         public static List<Square> FetchPanelRange(this List<Square> squaresList, int startRow, int startCol, int stopRow, int stopCol)
         {
             return squaresList.Where(e => e.Coordinates.row >= startRow && e.Coordinates.col >= startCol && e.Coordinates.row <= stopRow & e.Coordinates.col <= stopCol).ToList();
         }
+        //Funkcja zwracająca pojedyńcze pole znajdujące się na określonych koordynatach
         public static Square At(this List<Square> squareList, int row, int col)
         {
             return squareList.First(e => e.Coordinates.row == row && e.Coordinates.col == col);
         }
+        //Generator losowych wartości logicznych
         public static bool GetBool()
         {
             Random rng = new(Guid.NewGuid().GetHashCode());
@@ -26,6 +29,7 @@ namespace Battleships
                 return false;
             }
         }
+        //Funkcja zwracająca wartość attrybutu przy dowolnym obiekcie
         public static T GetAttribute<T>(this Enum value) where T : System.Attribute
         {
             var type = value.GetType();

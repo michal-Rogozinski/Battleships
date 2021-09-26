@@ -25,20 +25,12 @@ namespace Battleships
 
             }
         }
-
+        //String zwracający wartość opisu stworzonego za pomocą klasy ComponentModel zawartego przy wybranym polu enumeratora
         public string ReturnStatus
         {
             get
             {
                 return TileStatus.GetAttribute<DescriptionAttribute>().Description;
-            }
-        }
-
-        public bool CheckRandomPanel
-        {
-            get
-            {
-                return (Coordinates.row % 2 == 0 && Coordinates.col % 2 == 0) || (Coordinates.row % 2 == 1 && Coordinates.col % 2 == 1);
             }
         }
     }

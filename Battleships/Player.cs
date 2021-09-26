@@ -38,6 +38,7 @@ namespace Battleships
                 return Fleet.TrueForAll(e => e.IsSunk);
             }
         }
+        //Metoda losująca położenie statków w flocie
         public void PlaceShips()
         {
             Random rng = new(Guid.NewGuid().GetHashCode());
@@ -113,7 +114,7 @@ namespace Battleships
             }
 
         }
-
+        //Metoda aktualizująca ilość trafień statku.
         public FiringResult RegisterStrike(Coordinates coordinates)
         {
             var tile = Field.SquaresList.At(coordinates.row, coordinates.col);
@@ -134,7 +135,7 @@ namespace Battleships
                 return FiringResult.Strike;
             }
         }
-
+        //Metoda aktualizująca tablicę trafień
         public void UpdateBoardTiles(Coordinates coordinates, FiringResult result)
         {
             var entry = HitsBoard.SquaresList.At(coordinates.row, coordinates.col);
@@ -147,14 +148,14 @@ namespace Battleships
                 entry.TileStatus = TypeEnumeration.Miss;
             }
         }
-
+        //Metoda wykonująca strzał na losowe koordynaty
         public Coordinates FireAtRandomCoords()
         {
             Random rng = new(Guid.NewGuid().GetHashCode());
             var panels = HitsBoard.GetOpenPanels();
             return panels.ElementAt(rng.Next(panels.Count));
         }
-
+        //Metoda wykonująca strzał na pola sąsiadujace z polem trafienia
         public Coordinates FireAtNeighbouringSquares()
         {
             Random rng = new(Guid.NewGuid().GetHashCode());

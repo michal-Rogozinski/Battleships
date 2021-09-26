@@ -30,6 +30,9 @@ namespace Battleships
             {
                 Console.WriteLine("{0} has won the game.", p1.PlayerName);
             }
+
+            p1.PrintBoard();
+            p2.PrintBoard();
         }
 
         public static void RoundCycle()
