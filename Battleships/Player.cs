@@ -31,7 +31,7 @@ namespace Battleships
             };
             return shipList;
         }
-        public bool LoosingCondition
+        public bool LosingCondition
         {
             get
             {

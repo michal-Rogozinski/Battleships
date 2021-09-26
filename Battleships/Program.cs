@@ -17,16 +17,16 @@ namespace Battleships
             p1.PrintBoard();
             p2.PrintBoard();
 
-            while (!p1.LoosingCondition && !p2.LoosingCondition)
+            while (!p1.LosingCondition && !p2.LosingCondition)
             {
                 RoundCycle();
             }
 
-            if (p1.LoosingCondition)
+            if (p1.LosingCondition)
             {
                 Console.WriteLine("{0} has won the game.", p2.PlayerName);
             }
-            else if (p2.LoosingCondition)
+            else if (p2.LosingCondition)
             {
                 Console.WriteLine("{0} has won the game.", p1.PlayerName);
             }
@@ -43,7 +43,7 @@ namespace Battleships
 
             //System.Threading.Thread.Sleep(500);
 
-            if (!p2.LoosingCondition)
+            if (!p2.LosingCondition)
             {
                 coords = p2.PlaceShot();
                 output = p1.RegisterStrike(coords);
