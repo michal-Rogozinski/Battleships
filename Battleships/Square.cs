@@ -1,29 +1,27 @@
-﻿using System;
-using System.Reflection;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace Battleships
 {
     public class Square
     {
-        public Coordinates coordinates { get; set; }
-        public TypeEnumeration tileStatus { get; set; }
+        public Coordinates Coordinates { get; set; }
+        public TypeEnumeration TileStatus { get; set; }
 
         public Square(Coordinates coords)
         {
-            coordinates = coords;
-            tileStatus = TypeEnumeration.Empty;
+            Coordinates = coords;
+            TileStatus = TypeEnumeration.Empty;
         }
 
         public bool IsOccupied
         {
             get
             {
-                return tileStatus == TypeEnumeration.Battleship ||
-                    tileStatus == TypeEnumeration.Carrier ||
-                    tileStatus == TypeEnumeration.Crusier ||
-                    tileStatus == TypeEnumeration.Destroyer ||
-                    tileStatus == TypeEnumeration.Submarine;
+                return TileStatus == TypeEnumeration.Battleship ||
+                    TileStatus == TypeEnumeration.Carrier ||
+                    TileStatus == TypeEnumeration.Crusier ||
+                    TileStatus == TypeEnumeration.Destroyer ||
+                    TileStatus == TypeEnumeration.Submarine;
 
             }
         }
@@ -32,7 +30,7 @@ namespace Battleships
         {
             get
             {
-                return tileStatus.GetAttribute<DescriptionAttribute>().Description;
+                return TileStatus.GetAttribute<DescriptionAttribute>().Description;
             }
         }
 
@@ -40,7 +38,7 @@ namespace Battleships
         {
             get
             {
-                return (coordinates.row % 2 == 0 && coordinates.col % 2 == 0) || (coordinates.row % 2 == 1 && coordinates.col % 2 == 1);
+                return (Coordinates.row % 2 == 0 && Coordinates.col % 2 == 0) || (Coordinates.row % 2 == 1 && Coordinates.col % 2 == 1);
             }
         }
     }

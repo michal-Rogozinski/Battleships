@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Battleships
 {
@@ -10,16 +8,16 @@ namespace Battleships
     {
         public static List<Square> FetchPanelRange(this List<Square> squaresList, int startRow, int startCol, int stopRow, int stopCol)
         {
-            return squaresList.Where(e => e.coordinates.row >= startRow && e.coordinates.col >= startCol && e.coordinates.row <= stopRow & e.coordinates.col <= stopCol).ToList();
+            return squaresList.Where(e => e.Coordinates.row >= startRow && e.Coordinates.col >= startCol && e.Coordinates.row <= stopRow & e.Coordinates.col <= stopCol).ToList();
         }
-        public static Square At (this List<Square> squareList,int row,int col)
+        public static Square At(this List<Square> squareList, int row, int col)
         {
-            return (Square)squareList.Where(e => e.coordinates.row == row && e.coordinates.col == col).First();
+            return squareList.First(e => e.Coordinates.row == row && e.Coordinates.col == col);
         }
-        public static bool getBool()
+        public static bool GetBool()
         {
-            Random rng = new Random(Guid.NewGuid().GetHashCode());
-            if(rng.Next() % 2 == 0)
+            Random rng = new(Guid.NewGuid().GetHashCode());
+            if (rng.Next() % 2 == 0)
             {
                 return true;
             }
@@ -33,7 +31,7 @@ namespace Battleships
             var type = value.GetType();
             var memberInfo = type.GetMember(value.ToString());
             var attrib = memberInfo[0].GetCustomAttributes(typeof(T), false);
-            if(attrib.Length > 0)
+            if (attrib.Length > 0)
             {
                 return (T)attrib[0];
             }

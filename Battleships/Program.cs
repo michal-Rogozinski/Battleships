@@ -17,18 +17,18 @@ namespace Battleships
             p1.PrintBoard();
             p2.PrintBoard();
 
-            while(!p1.LoosingCondition && !p2.LoosingCondition)
+            while (!p1.LoosingCondition && !p2.LoosingCondition)
             {
                 RoundCycle();
             }
 
             if (p1.LoosingCondition)
             {
-                Console.WriteLine("{0} has won the game.", p2.playerName);
+                Console.WriteLine("{0} has won the game.", p2.PlayerName);
             }
             else if (p2.LoosingCondition)
             {
-                Console.WriteLine("{0} has won the game.", p1.playerName);
+                Console.WriteLine("{0} has won the game.", p1.PlayerName);
             }
         }
 

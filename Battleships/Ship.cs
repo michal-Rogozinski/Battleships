@@ -3,17 +3,17 @@ namespace Battleships
 {
     public abstract class Ship
     {
-        public int shipSize { get; set; }
-        public string name { get; set; }
-        public TypeEnumeration shipType { get; set; }
+        public int ShipSize { get; set; }
+        public string ShipName { get; set; }
+        public TypeEnumeration ShipType { get; set; }
 
-        public int hitsCount { get; set; }
+        public int HitsCount { get; set; }
 
         public bool IsSunk
         {
             get
             {
-                return hitsCount >= shipSize;
+                return HitsCount >= ShipSize;
             }
         }
     }

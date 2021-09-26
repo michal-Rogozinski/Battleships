@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Battleships
+﻿namespace Battleships
 {
     public class Battleship : Ship
     {
         public Battleship()
         {
-            shipSize = 4;
-            name = "Battleship";
-            shipType = TypeEnumeration.Battleship;
+            ShipSize = 4;
+            ShipName = "Battleship";
+            ShipType = TypeEnumeration.Battleship;
         }
     }
 
@@ -20,9 +14,9 @@ namespace Battleships
     {
         public Cruiser()
         {
-            shipSize = 3;
-            name = "Cruiser";
-            shipType = TypeEnumeration.Crusier;
+            ShipSize = 3;
+            ShipName = "Cruiser";
+            ShipType = TypeEnumeration.Crusier;
         }
     }
 
@@ -30,9 +24,9 @@ namespace Battleships
     {
         public Carrier()
         {
-            shipSize = 5;
-            name = "Carrier";
-            shipType = TypeEnumeration.Carrier;
+            ShipSize = 5;
+            ShipName = "Carrier";
+            ShipType = TypeEnumeration.Carrier;
         }
     }
 
@@ -40,18 +34,18 @@ namespace Battleships
     {
         public Destroyer()
         {
-            shipSize = 2;
-            name = "Destroyer";
-            shipType = TypeEnumeration.Destroyer;
+            ShipSize = 2;
+            ShipName = "Destroyer";
+            ShipType = TypeEnumeration.Destroyer;
         }
     }
     public class Submarine : Ship
     {
         public Submarine()
         {
-            shipSize = 3;
-            name = "Submarine";
-            shipType = TypeEnumeration.Submarine;
+            ShipSize = 3;
+            ShipName = "Submarine";
+            ShipType = TypeEnumeration.Submarine;
         }
     }
 }

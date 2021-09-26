@@ -6,20 +6,20 @@ namespace Battleships
 {
     public class Player
     {
-        public string playerName { get; set; }
-        public Field field { get; set; }
-        public HitsBoard hitsBoard { get; set; }
-        public List<Ship> fleet { get; set; }
+        public string PlayerName { get; set; }
+        public Field Field { get; set; }
+        public HitsBoard HitsBoard { get; set; }
+        public List<Ship> Fleet { get; set; }
 
         public Player(string name)
         {
-            playerName = name;
-            fleet = initializeFleet();
-            field = new Field();
-            hitsBoard = new HitsBoard();
+            PlayerName = name;
+            Fleet = InitializeFleet();
+            Field = new Field();
+            HitsBoard = new HitsBoard();
         }
 
-        public List<Ship> initializeFleet()
+        public static List<Ship> InitializeFleet()
         {
             var shipList = new List<Ship>()
             {
@@ -35,14 +35,13 @@ namespace Battleships
         {
             get
             {
-                return fleet.TrueForAll(e => e.IsSunk);
+                return Fleet.TrueForAll(e => e.IsSunk);
             }
         }
-
         public void PlaceShips()
         {
-            Random rng = new Random();
-            foreach (var entry in fleet)
+            Random rng = new(Guid.NewGuid().GetHashCode());
+            foreach (var entry in Fleet)
             {
                 bool loopCondition = true;
                 while (loopCondition)
@@ -50,13 +49,13 @@ namespace Battleships
                     int startRow = rng.Next(1, 11);
                     int startCol = rng.Next(1, 11);
                     int tempRow = startRow, tempCol = startCol;
-                    if (Util.getBool()) //true for vertical
+                    if (Util.GetBool()) //true for vertical
                     {
-                        tempCol += entry.shipSize;
+                        tempCol += entry.ShipSize;
                     }
                     else
                     {
-                        tempRow += entry.shipSize;
+                        tempRow += entry.ShipSize;
                     }
                     if (tempCol > 10 || tempRow > 10)
                     {
@@ -64,7 +63,7 @@ namespace Battleships
                         continue;
                     }
 
-                    var panelList = field.SquaresList.FetchPanelRange(startRow, startCol, tempRow, tempCol);
+                    var panelList = Field.SquaresList.FetchPanelRange(startRow, startCol, tempRow, tempCol);
 
                     if (panelList.Any(e => e.IsOccupied))
                     {
@@ -73,7 +72,7 @@ namespace Battleships
                     }
                     foreach (var panel in panelList)
                     {
-                        panel.tileStatus = entry.shipType;
+                        panel.TileStatus = entry.ShipType;
                     }
                     loopCondition = false;
                 }
@@ -86,12 +85,12 @@ namespace Battleships
             {
                 for (int k = 1; k <= 10; k++)
                 {
-                    Console.Write(field.SquaresList.At(i, k).ReturnStatus + " ");
+                    Console.Write(Field.SquaresList.At(i, k).ReturnStatus + " ");
                 }
                 Console.Write("            ");
                 for (int o = 1; o <= 10; o++)
                 {
-                    Console.Write(hitsBoard.SquaresList.At(i, o).ReturnStatus + " ");
+                    Console.Write(HitsBoard.SquaresList.At(i, o).ReturnStatus + " ");
                 }
                 Console.WriteLine("\r\n");
             }
@@ -100,7 +99,7 @@ namespace Battleships
 
         public Coordinates PlaceShot()
         {
-            var squareNeighbour = hitsBoard.GetHitNeighbours();
+            var squareNeighbour = HitsBoard.GetHitNeighbours();
             Coordinates outputCoords;
             if (squareNeighbour.Any())
             {
@@ -117,7 +116,7 @@ namespace Battleships
 
         public FiringResult RegisterStrike(Coordinates coordinates)
         {
-            var tile = field.SquaresList.At(coordinates.row, coordinates.col);
+            var tile = Field.SquaresList.At(coordinates.row, coordinates.col);
             if (!tile.IsOccupied)
             {
                 Console.WriteLine("Miss at coordinates: {0} , {1} .", coordinates.row, coordinates.col);
@@ -125,41 +124,41 @@ namespace Battleships
             }
             else
             {
-                var ship = fleet.Find(e => e.shipType == tile.tileStatus);
-                ship.hitsCount += 1;
-                Console.WriteLine("Hit at coordinates: {0} , {1} at player {2}.", coordinates.row, coordinates.col,playerName);
+                var ship = Fleet.Find(e => e.ShipType == tile.TileStatus);
+                ship.HitsCount += 1;
+                Console.WriteLine("Hit at coordinates: {0} , {1} at player {2}.", coordinates.row, coordinates.col, PlayerName);
                 if (ship.IsSunk)
                 {
-                    Console.WriteLine("The {0} of player {1} has been sunk.", ship.name,playerName);
+                    Console.WriteLine("The {0} of player {1} has been sunk.", ship.ShipName, PlayerName);
                 }
                 return FiringResult.Strike;
             }
         }
 
-        public void UpdateBoardTiles(Coordinates coordinates,FiringResult result)
+        public void UpdateBoardTiles(Coordinates coordinates, FiringResult result)
         {
-            var entry = hitsBoard.SquaresList.At(coordinates.row, coordinates.col);
+            var entry = HitsBoard.SquaresList.At(coordinates.row, coordinates.col);
             if (result.Equals(FiringResult.Strike))
             {
-                entry.tileStatus = TypeEnumeration.Hit;
+                entry.TileStatus = TypeEnumeration.Hit;
             }
             else
             {
-                entry.tileStatus = TypeEnumeration.Miss;
+                entry.TileStatus = TypeEnumeration.Miss;
             }
         }
 
         public Coordinates FireAtRandomCoords()
         {
-            Random rng = new Random(Guid.NewGuid().GetHashCode());
-            var panels = hitsBoard.GetOpenPanels();
+            Random rng = new(Guid.NewGuid().GetHashCode());
+            var panels = HitsBoard.GetOpenPanels();
             return panels.ElementAt(rng.Next(panels.Count));
         }
 
         public Coordinates FireAtNeighbouringSquares()
         {
-            Random rng = new Random(Guid.NewGuid().GetHashCode());
-            var panels = hitsBoard.GetHitNeighbours();
+            Random rng = new(Guid.NewGuid().GetHashCode());
+            var panels = HitsBoard.GetHitNeighbours();
             return panels.ElementAt(rng.Next(panels.Count));
         }
     }
