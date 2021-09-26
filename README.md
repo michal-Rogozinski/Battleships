@@ -14,7 +14,7 @@ a klasa ShipTypes jest klasą implementującą.
 jak i metody aktualizujące stan tablic.
 - Klasy Util zawierająca metody wspomagające.
 
-Podstawowymi jednostkami wymaganymi do funkcjonowania gry są koordynaty i stan pola.
+Program działa całkowicie w interfejsie CLI.
 
 ## Przebieg gry
 Tablice graczy są losowo zapełniane na początku gry poprzez metodę PlaceShips. Metoda ta działa w pętli aż do momentu umieszczenia wszyskich statków
