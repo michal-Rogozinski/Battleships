@@ -14,7 +14,7 @@ namespace Battleships
         //Funkcja zwracająca pojedyńcze pole znajdujące się na określonych koordynatach
         public static Square At(this List<Square> squareList, int row, int col)
         {
-            return squareList.First(e => e.Coordinates.row == row && e.Coordinates.col == col);
+            return squareList.FirstOrDefault(e => e.Coordinates.row == row && e.Coordinates.col == col);
         }
         //Generator losowych wartości logicznych
         public static bool GetBool()

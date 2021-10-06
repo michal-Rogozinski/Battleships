@@ -11,6 +11,9 @@ namespace Battleships
         public HitsBoard HitsBoard { get; set; }
         public List<Ship> Fleet { get; set; }
 
+        public readonly int minValue = 1;
+        public readonly int maxValue = 10;
+
         public Player(string name)
         {
             PlayerName = name;
@@ -47,8 +50,10 @@ namespace Battleships
                 bool loopCondition = true;
                 while (loopCondition)
                 {
-                    int startRow = rng.Next(1, 11);
-                    int startCol = rng.Next(1, 11);
+                    int upperBound = 11;
+                    int lowerBound = 1;
+                    int startRow = rng.Next(lowerBound, upperBound);
+                    int startCol = rng.Next(lowerBound, upperBound);
                     int tempRow = startRow, tempCol = startCol;
                     if (Util.GetBool()) //true for vertical
                     {
@@ -58,9 +63,8 @@ namespace Battleships
                     {
                         tempRow += entry.ShipSize;
                     }
-                    if (tempCol > 10 || tempRow > 10)
+                    if (tempCol > maxValue || tempRow > maxValue)
                     {
-                        loopCondition = true;
                         continue;
                     }
 
@@ -68,7 +72,6 @@ namespace Battleships
 
                     if (panelList.Any(e => e.IsOccupied))
                     {
-                        loopCondition = true;
                         continue;
                     }
                     foreach (var panel in panelList)
@@ -82,14 +85,14 @@ namespace Battleships
         public void PrintBoard()
         {
             Console.WriteLine("My board                          Enemy board");
-            for (int i = 1; i <= 10; i++)
+            for (int i = 1; i <= maxValue; i++)
             {
-                for (int k = 1; k <= 10; k++)
+                for (int k = 1; k <= maxValue; k++)
                 {
                     Console.Write(Field.SquaresList.At(i, k).ReturnStatus + " ");
                 }
                 Console.Write("            ");
-                for (int o = 1; o <= 10; o++)
+                for (int o = 1; o <= maxValue; o++)
                 {
                     Console.Write(HitsBoard.SquaresList.At(i, o).ReturnStatus + " ");
                 }
@@ -115,37 +118,40 @@ namespace Battleships
 
         }
         //Metoda aktualizująca ilość trafień statku.
-        public FiringResult RegisterStrike(Coordinates coordinates)
+        public void RegisterStrike(Coordinates coordinates)
         {
-            var tile = Field.SquaresList.At(coordinates.row, coordinates.col);
-            if (!tile.IsOccupied)
+            var tileField = Field.SquaresList.At(coordinates.row, coordinates.col);
+            var tileHitsBoard = HitsBoard.SquaresList.At(coordinates.row, coordinates.col);
+            if (!tileField.IsOccupied)
             {
-                Console.WriteLine("Miss at coordinates: {0} , {1} .", coordinates.row, coordinates.col);
-                return FiringResult.Miss;
+                tileHitsBoard.TileStatus = (TypeEnumeration)FiringResult.Miss;
             }
             else
             {
-                var ship = Fleet.Find(e => e.ShipType == tile.TileStatus);
+                var ship = Fleet.Find(e => e.ShipType == tileField.TileStatus);
                 ship.HitsCount += 1;
-                Console.WriteLine("Hit at coordinates: {0} , {1} at player {2}.", coordinates.row, coordinates.col, PlayerName);
-                if (ship.IsSunk)
-                {
-                    Console.WriteLine("The {0} of player {1} has been sunk.", ship.ShipName, PlayerName);
-                }
-                return FiringResult.Strike;
+                tileHitsBoard.TileStatus = (TypeEnumeration)FiringResult.Strike;
             }
         }
-        //Metoda aktualizująca tablicę trafień
-        public void UpdateBoardTiles(Coordinates coordinates, FiringResult result)
+        public void PrintResult(Coordinates coordinates)
         {
-            var entry = HitsBoard.SquaresList.At(coordinates.row, coordinates.col);
-            if (result.Equals(FiringResult.Strike))
+            var tileField = Field.SquaresList.At(coordinates.row, coordinates.col);
+            var tileHitsBoard = HitsBoard.SquaresList.At(coordinates.row, coordinates.col);
+            if (!tileField.IsOccupied)
             {
-                entry.TileStatus = TypeEnumeration.Hit;
+                Console.WriteLine("Miss at {0},{1} by {2}", coordinates.row, coordinates.col, PlayerName);
             }
             else
             {
-                entry.TileStatus = TypeEnumeration.Miss;
+                var ship = Fleet.Find(e => e.ShipType == tileField.TileStatus);
+                if (ship is not null && !ship.IsSunk)
+                {
+                    Console.WriteLine("Hit at {0} at coordinates {1},{2} by {3}", ship.ShipName, coordinates.row, coordinates.col, PlayerName);
+                    if (ship.IsSunk)
+                    {
+                        Console.WriteLine("{0} belonging to {3} sunk at coordinates {1},{2}", ship.ShipName, coordinates.row, coordinates.col, PlayerName);
+                    }
+                }
             }
         }
         //Metoda wykonująca strzał na losowe koordynaty

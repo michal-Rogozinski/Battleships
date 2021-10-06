@@ -14,8 +14,7 @@ namespace Battleships
             p1.PlaceShips();
             p2.PlaceShips();
 
-            p1.PrintBoard();
-            p2.PrintBoard();
+            PrintBoards();
 
             while (!p1.LosingCondition && !p2.LosingCondition)
             {
@@ -24,31 +23,38 @@ namespace Battleships
 
             if (p1.LosingCondition)
             {
-                Console.WriteLine("{0} has won the game.", p2.PlayerName);
+                Console.WriteLine("{0} has won the game. \r\n", p2.PlayerName);
             }
             else if (p2.LosingCondition)
             {
-                Console.WriteLine("{0} has won the game.", p1.PlayerName);
+                Console.WriteLine("{0} has won the game. \r\n", p1.PlayerName);
             }
 
-            p1.PrintBoard();
-            p2.PrintBoard();
+            PrintBoards();
+
         }
 
         public static void RoundCycle()
         {
             var coords = p1.PlaceShot();
-            var output = p2.RegisterStrike(coords);
-            p1.UpdateBoardTiles(coords, output);
+            p2.RegisterStrike(coords);
+            p1.PrintResult(coords);
 
-            //System.Threading.Thread.Sleep(500);
+            //System.Threading.Thread.Sleep(250);
 
             if (!p2.LosingCondition)
             {
                 coords = p2.PlaceShot();
-                output = p1.RegisterStrike(coords);
-                p2.UpdateBoardTiles(coords, output);
+                p1.RegisterStrike(coords);
+                p2.PrintResult(coords);
             }
+        }
+        public static void PrintBoards()
+        {
+            Console.WriteLine("Player 1 \r\n");
+            p1.PrintBoard();
+            Console.WriteLine("Player 2 \r\n");
+            p2.PrintBoard();
         }
     }
 }
